@@ -2,7 +2,6 @@ import jdatetime as jdt
 from DataBase import *
 from Input import Input
 from time import sleep
-import numpy as np
 #{Code:[SR, Hajm, Close, Payani]}
 
 with open("namad.csv") as namads:
@@ -29,8 +28,8 @@ while True:
                         StockInfo
                     WHERE
                         Code in Namad'''.replace("Namad",str(tuple(Namads.keys()))))
-    List = np.array(cursor.fetchall())
-    conn.close()
+    List = cursor.fetchall()
+
 
     #add BEY
     for i in List :
@@ -38,7 +37,8 @@ while True:
         PV = int([i[2],i[3]][int(i[1])==0])
         if int(i[1]):
             Namads[i[0]][1] = BEY(PV, SR)
+            
+    print(Namads,"\n")
 
-print (Namads)
 
 
