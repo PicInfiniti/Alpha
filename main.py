@@ -16,12 +16,11 @@ def BEY(PV, SR, FV=1000000):
     return (FV/PV-1)*(365/SR)
 
 DB = 'StockData.db'
-
+conn = sqlite3.connect(DB)
+cursor = conn.cursor()
 while True:
     sleep(1)
     UpdateDB()
-    conn = sqlite3.connect(DB)
-    cursor = conn.cursor()
     # extract all stock name stored in database ans store to List
     cursor.execute('''
                     SELECT
@@ -32,7 +31,7 @@ while True:
                         Code in Namad'''.replace("Namad",str(tuple(Namads.keys()))))
     List = np.array(cursor.fetchall())
     conn.close()
-    print(List,"\n")
+
     #add BEY
     for i in List :
         SR = Namads[i[0]][0]
@@ -40,6 +39,6 @@ while True:
         if int(i[1]):
             Namads[i[0]][1] = BEY(PV, SR)
 
-
+print (Namads)
 
 
