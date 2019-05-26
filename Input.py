@@ -4,7 +4,12 @@ Input = {"strategy": "buy",
         "maxweight" : .1,
         "aggressive" : .23,
         "PR" : .005,
-        "FV" : 1000000
         }
         
-
+class Account():
+    def __init__(self, balance):
+        self.balance = balance
+        self.Namads = {}
+        
+    def OrderSend(self, PR, aggressive):
+        pass
