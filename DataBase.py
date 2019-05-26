@@ -98,4 +98,4 @@ def id2stock(Id,inverse=0):
     for i in OutPut:
         if Id in i:
             return i[inverse]
-UpdateDB()
+
