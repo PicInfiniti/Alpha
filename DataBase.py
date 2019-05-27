@@ -99,3 +99,20 @@ def id2stock(Id,inverse=0):
         if Id in i:
             return i[inverse]
 
+def Online(text='21607242972640064'):
+    text = Persian(text)
+    text = id2stock(text)
+    group = id2stock(text,18)
+    respons = requests.get('http://www.tsetmc.com/tsev2/data/instinfodata.aspx?i='+text+'&c='+group+'+')
+    respons = respons.content
+    respons = respons.decode().split(';')[:5]
+
+    del respons[1], respons[2]
+    for i in range(3):
+        respons[i] = respons[i].split(',')
+
+    del respons[1][-1]
+        
+
+    return respons[1][0].split("@")[2:4]
+    

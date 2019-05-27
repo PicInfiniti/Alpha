@@ -2,7 +2,7 @@ import jdatetime as jdt
 from Input import Input
 from Toolkit import *
 from time import sleep
-#{Code:[SR, Hajm, Close, Payani]}
+#{Code:[SR, Hajm, Close, Payani, ask, bid]}
         
 with open("namad.csv") as namads:
     Namads = {}
@@ -17,7 +17,7 @@ conn = sqlite3.connect(DB)
 cursor = conn.cursor()
 while True:
     sleep(1)
-    
+
     try:
         with open("Input.py") as Input:
             Input = Input.read()
@@ -25,7 +25,8 @@ while True:
             Filter = {}
             for i in Namads.keys():
                 if Input["SarResid"][0]<Namads[i]<Input["SarResid"][1]:
-                    Filter[i] = [Namads[i], 0]
+                    AB = Online(i) #ask, bid
+                    Filter[i] = [Namads[i], 0 , AB[0], AB[1]]
         UpdateDB()
     except:
         continue
@@ -47,6 +48,7 @@ while True:
         Filter[i[0]][1] = BEY(PV, SR)
 
     Print(Filter)
+    print("MBEY+"+str(Input["PR"])+":", MaxDic(Filter)+Input["PR"])
 
 
 
