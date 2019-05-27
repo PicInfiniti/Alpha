@@ -4,9 +4,31 @@ from os import system
 class Account:
     def __init__(self, balance):
         self.balance = balance
-        self.Namads = {}
+        self.asset = {}
+        self.orders = {}
+    
+    def Order(self,Dic ,bey):
+        if not self.balance:
+            return
+            
+        ask = MaxDic(Dic, 2)
+        bid = MaxDic(Dic, 3)
+        if BEY(bid[1], Dic[bid[0]][0]) > bey:
+            self.orders[bid[0]] = bid[1]
+            self.balance -=self.balance
+            return
         
-    def OrderSend(self, PR, aggressive):
+        elif BEY(ask[1]+1, Dic[ask[0]][0]) > bey:
+            self.orders[ask[0]] = ask[1]+1
+            self.balance -=self.balance
+            return        
+        
+        else:
+            for i in Dic.keys():
+                self.orders[i] = int(BEY(False, Dic[i][0], bey))
+            
+    
+    def OrderSend(self):
         pass
         
 def Print(a):
@@ -21,11 +43,16 @@ def Print(a):
     print("Namad\t Sr BEY\t\t\tBEYask\t\t    BEYbid")
     print(t)
         
-def BEY(PV, SR, FV=1000000):
+def BEY(PV, SR, bey=False, FV=1000000):
+    if bey: return 365*FV/(SR*bey+365)
     return (FV/int(PV)-1)*(365/SR)
 
 def MaxDic(Dic, t=1):
-    return max([Dic[i][t] for i in Dic.keys()])
+    Max = [0, 0]
+    for i in Dic.keys():
+        if Dic[i][t] > Max[1]: Max = [i, Dic[i][t]]
+        
+    return Max
     
 
 

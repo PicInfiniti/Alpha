@@ -3,7 +3,8 @@ from Input import Input
 from Toolkit import *
 from time import sleep
 #{Code:[SR, Hajm, Close, Payani, ask, bid]}
-        
+account = Account(Input["balance"])
+
 with open("namad.csv") as namads:
     Namads = {}
     for i in namads.read().split():
@@ -26,7 +27,7 @@ while True:
             for i in Namads.keys():
                 if Input["SarResid"][0]<Namads[i]<Input["SarResid"][1]:
                     AB = Online(i) #ask, bid
-                    Filter[i] = [Namads[i], 0 , AB[0], AB[1]]
+                    Filter[i] = [Namads[i], 0 , int(AB[0]), int(AB[1])]
         UpdateDB()
     except:
         continue
@@ -48,7 +49,12 @@ while True:
         Filter[i[0]][1] = BEY(PV, SR)
 
     Print(Filter)
-    print("MBEY+"+str(Input["PR"])+":", MaxDic(Filter)+Input["PR"])
+    wbey = MaxDic(Filter)[1]+Input["PR"]
+    print("MBEY+"+str(Input["PR"])+":", wbey,"\n")
 
+    account.Order(Filter, wbey)
+    account.OrderSend()
+    for i in account.orders.keys():
+        print(id2stock(i,2), account.orders[i] )
 
 
